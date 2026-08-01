@@ -143,11 +143,11 @@ class Game {
         this.updateToolbar();
       }
       if (e.key === 'q' && this.role === 'hider' && this.state === 'prep') {
-        this.paint.size = Math.max(4, this.paint.size - 2);
+        this.paint.size = Math.max(2, this.paint.size - 2);
         this.syncSizeSlider();
       }
       if (e.key === 'e' && this.role === 'hider' && this.state === 'prep') {
-        this.paint.size = Math.min(24, this.paint.size + 2);
+        this.paint.size = Math.min(16, this.paint.size + 2);
         this.syncSizeSlider();
       }
       if (e.key === 'z' && (e.ctrlKey || e.metaKey)) {

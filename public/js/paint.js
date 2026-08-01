@@ -14,7 +14,7 @@ const PALETTE = [
 class Paint {
   constructor() {
     this.color = PALETTE[0].hex;
-    this.size = 10;
+    this.size = 6;
     this.strokes = new Map();
     this.active = false;
   }
