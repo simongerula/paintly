@@ -1,0 +1,99 @@
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#111827;color:#e5e7eb;min-height:100vh;overflow:hidden}
+
+.screen{display:none;position:fixed;inset:0;justify-content:center;align-items:center}
+.screen.active{display:flex}
+
+.card{background:#1f2937;padding:36px 40px;border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,.5);text-align:center;max-width:440px;width:92%}
+h1{font-size:2.4rem;margin-bottom:6px;background:linear-gradient(135deg,#ef4444,#f97316);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+h2{font-size:1.6rem;margin-bottom:10px;color:#f87171}
+h2 code{background:#374151;padding:4px 12px;border-radius:6px;font-size:1.4rem;letter-spacing:2px;color:#fbbf24}
+h3{font-size:.95rem;color:#9ca3af;margin-bottom:6px}
+.sub{color:#6b7280;font-size:.88rem;margin-bottom:18px}
+
+.form{display:flex;flex-direction:column;gap:10px;text-align:left}
+.form label{font-size:.8rem;color:#9ca3af;margin-bottom:2px}
+.form input,.form select{width:100%;padding:11px 14px;border:2px solid #374151;border-radius:8px;background:#111827;color:#e5e7eb;font-size:.95rem;outline:none;transition:border .2s}
+.form input:focus{border-color:#ef4444}
+
+.btn{padding:11px 22px;border:none;border-radius:8px;font-size:.95rem;font-weight:600;cursor:pointer;transition:transform .1s,box-shadow .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 4px 14px rgba(0,0,0,.3)}
+.btn.primary{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff}
+.btn.secondary{background:#374151;color:#e5e7eb}
+
+.sep{display:flex;align-items:center;margin:4px 0;color:#4b5563;font-size:.75rem}
+.sep::before,.sep::after{content:'';flex:1;height:1px;background:#374151}
+.sep span{padding:0 12px}
+
+.err{margin-top:10px;padding:8px;background:rgba(239,68,68,.15);border:1px solid #ef4444;border-radius:6px;color:#f87171;font-size:.85rem}
+
+.row{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:16px}
+.row select{width:auto}
+
+.plist{margin-bottom:16px}
+.plist ul{list-style:none}
+.plist li{padding:7px 14px;margin:3px 0;background:#111827;border-radius:6px;display:flex;justify-content:space-between;font-size:.9rem}
+.plist .host{font-size:.7rem;background:#ef4444;padding:2px 7px;border-radius:4px;color:#fff}
+
+/* ═══ GAME ═══ */
+.game-wrap{position:relative;width:100vw;height:100vh;background:#1a1a2e}
+#game-canvas{display:block;width:100%;height:100%}
+
+.hud{position:absolute;top:10px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;z-index:10}
+.hud-top{background:rgba(0,0,0,.72);padding:7px 18px;border-radius:10px;backdrop-filter:blur(4px)}
+.hud-bottom{background:rgba(0,0,0,.72);padding:7px 18px;border-radius:10px;backdrop-filter:blur(4px);display:flex;align-items:center;gap:14px}
+.badge{padding:4px 12px;border-radius:5px;font-weight:700;font-size:.85rem;text-transform:uppercase}
+.badge.hider{background:#16a34a;color:#fff}
+.badge.seeker{background:#dc2626;color:#fff}
+.badge.phase{background:#2563eb;color:#fff;font-size:.75rem}
+.timer{font-size:1.7rem;font-weight:800;min-width:44px;text-align:center;color:#fbbf24}
+.rinfo{font-size:.8rem;color:#9ca3af}
+.shoots-info{padding:4px 12px;border-radius:5px;font-weight:700;font-size:.85rem;background:#dc2626;color:#fff}
+
+/* ═══ PALETTE ═══ */
+.toolbar{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:6px;background:rgba(17,24,39,.92);padding:8px 14px;border-radius:14px;z-index:10;backdrop-filter:blur(4px);border:1px solid #374151}
+
+.palette{display:flex;gap:4px}
+.pal-btn{width:30px;height:30px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .15s;box-shadow:0 2px 4px rgba(0,0,0,.3)}
+.pal-btn:hover{transform:scale(1.15);border-color:#fff}
+.pal-btn.active{border-color:#fff;box-shadow:0 0 0 2px #fbbf24}
+
+.sep-bar{width:1px;height:24px;background:#374151;margin:0 4px}
+
+#color-pick{width:30px;height:30px;border:none;border-radius:50%;cursor:pointer;background:none;padding:0}
+#size-pick{width:60px;accent-color:#ef4444}
+
+.tbtn{padding:6px 12px;border:2px solid #374151;border-radius:6px;background:#111827;color:#d1d5db;font-size:.75rem;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap}
+.tbtn:hover{border-color:#ef4444;color:#fff}
+.tbtn.active{border-color:#ef4444;background:#ef4444;color:#fff}
+
+/* ═══ HINT ═══ */
+.hint-box{position:absolute;bottom:70px;left:10px;background:rgba(0,0,0,.6);padding:8px 12px;border-radius:8px;font-size:.72rem;color:#9ca3af;z-index:10;line-height:1.7}
+.hint-box b{color:#d1d5db}
+
+/* ═══ SEEKER OVERLAY ═══ */
+.seeker-overlay{position:absolute;inset:0;background:#111827;z-index:5}
+
+/* ═══ SEEKER WAIT ═══ */
+.seeker-wait{position:absolute;bottom:50%;left:50%;transform:translate(-50%,50%);text-align:center;z-index:10;pointer-events:none}
+.seeker-wait-text{font-size:1.6rem;font-weight:700;color:#9ca3af;margin-bottom:8px}
+.seeker-wait-countdown{font-size:3rem;font-weight:800;color:#fbbf24}
+
+/* ═══ BETWEEN ROUNDS ═══ */
+.between-rounds{position:absolute;bottom:50%;left:50%;transform:translate(-50%,50%);text-align:center;z-index:10;background:rgba(17,24,39,.92);padding:24px 32px;border-radius:14px;backdrop-filter:blur(4px);border:1px solid #374151}
+.between-rounds-text{font-size:1.6rem;font-weight:700;color:#9ca3af;margin-bottom:12px}
+.between-rounds-scores{margin-bottom:16px;font-size:.9rem;color:#d1d5db}
+.between-rounds-scores .entry{padding:6px 0;border-bottom:1px solid #374151}
+.between-rounds-scores .entry:last-child{border-bottom:none}
+.between-rounds-wait{font-size:.85rem;color:#6b7280}
+
+/* ═══ RESULTS ═══ */
+#final-results{margin:16px 0;text-align:left}
+.result-player{display:flex;align-items:center;gap:10px;padding:9px 14px;margin:4px 0;background:#111827;border-radius:6px;font-size:.9rem}
+.role-tag{font-size:.65rem;padding:2px 7px;border-radius:4px;font-weight:700;text-transform:uppercase}
+.role-tag.hider{background:#16a34a;color:#fff}
+.role-tag.seeker{background:#dc2626;color:#fff}
+.score{margin-left:auto;font-weight:700;color:#fbbf24}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.screen.active{animation:fadeIn .25s ease}

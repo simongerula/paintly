@@ -1,0 +1,18 @@
+{
+  "name": "hide-n-paint",
+  "version": "1.0.0",
+  "description": "Multiplayer 2D hide-and-paint game",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "node server/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "express": "^5.2.1",
+    "socket.io": "^4.8.3"
+  }
+}

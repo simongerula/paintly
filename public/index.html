@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hide and Paint</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ═══ LOBBY ═══ -->
+  <div id="lobby-screen" class="screen active">
+    <div class="card">
+      <h1>Hide and Paint</h1>
+      <p class="sub">Paint yourself to blend in. Can the hunter find you?</p>
+      <div class="form">
+        <label>Your Name</label>
+        <input id="player-name" maxlength="16" placeholder="Enter name">
+        <button id="create-btn" class="btn primary">Create Room</button>
+        <div class="sep"><span>or</span></div>
+        <label>Room Code</label>
+        <input id="room-code" maxlength="6" placeholder="6-digit code" style="text-transform:uppercase">
+        <button id="join-btn" class="btn secondary">Join Room</button>
+      </div>
+      <div id="err" class="err" style="display:none"></div>
+    </div>
+  </div>
+
+  <!-- ═══ ROOM ═══ -->
+  <div id="room-screen" class="screen">
+    <div class="card">
+      <h2>Room <code id="room-code-out"></code></h2>
+      <p class="sub">Share this code with your friends</p>
+      <div class="row">
+        <label>Map</label>
+        <select id="map-select">
+          <option value="starry-night">Starry Night</option>
+        </select>
+      </div>
+      <div class="plist">
+        <h3>Players (<span id="p-count">0</span>/8)</h3>
+        <ul id="p-list"></ul>
+      </div>
+      <button id="start-btn" class="btn primary" style="display:none">Start Game</button>
+      <p id="wait-msg" class="sub">Waiting for host...</p>
+    </div>
+  </div>
+
+  <!-- ═══ GAME ═══ -->
+  <div id="game-screen" class="screen">
+    <div class="game-wrap">
+      <!-- HUD -->
+      <div class="hud">
+        <div class="hud-top">
+          <div id="role-badge" class="badge hider">HIDER</div>
+        </div>
+        <div class="hud-bottom">
+          <div id="phase-badge" class="badge phase">PREP</div>
+          <div id="shoots-info" class="shoots-info" style="display:none">Shoots: <span id="shoots-count">0</span></div>
+          <div id="timer" class="timer">60</div>
+          <div id="round-info" class="rinfo">Round 1/3</div>
+        </div>
+      </div>
+
+      <canvas id="game-canvas"></canvas>
+
+      <!-- Palette -->
+      <div id="toolbar" class="toolbar" style="display:none">
+        <div class="palette">
+          <div class="pal-btn" data-color="#e74c3c" style="background:#e74c3c" title="Red"></div>
+          <div class="pal-btn" data-color="#e67e22" style="background:#e67e22" title="Orange"></div>
+          <div class="pal-btn" data-color="#f1c40f" style="background:#f1c40f" title="Yellow"></div>
+          <div class="pal-btn" data-color="#27ae60" style="background:#27ae60" title="Green"></div>
+          <div class="pal-btn" data-color="#2980b9" style="background:#2980b9" title="Blue"></div>
+          <div class="pal-btn" data-color="#8e44ad" style="background:#8e44ad" title="Purple"></div>
+          <div class="pal-btn" data-color="#8b4513" style="background:#8b4513" title="Brown"></div>
+          <div class="pal-btn" data-color="#ffffff" style="background:#ffffff;border:1px solid #ccc" title="White"></div>
+          <div class="pal-btn" data-color="#2c3e50" style="background:#2c3e50" title="Dark"></div>
+          <div class="pal-btn" data-color="#7f8c8d" style="background:#7f8c8d" title="Grey"></div>
+        </div>
+        <div class="sep-bar"></div>
+        <input type="color" id="color-pick" value="#e74c3c" title="Custom color">
+        <input type="range" id="size-pick" min="4" max="24" value="10" title="Brush size">
+        <div class="sep-bar"></div>
+        <button id="tool-brush" class="tbtn active" title="Paint (P)">Brush</button>
+        <button id="tool-sample" class="tbtn" title="Sample from room (Space)">Pick</button>
+        <button id="tool-undo" class="tbtn" title="Undo (Ctrl+Z)">Undo</button>
+        <button id="tool-clear" class="tbtn" title="Clear all paint">Clear</button>
+      </div>
+
+      <!-- Hint -->
+      <div id="controls" class="hint-box">
+        <b>Drag</b> the white body to hide! &nbsp;|&nbsp;
+        Press <b>P</b> to paint &nbsp;|&nbsp;
+        Press <b>Space</b> to pick a color from the room
+      </div>
+
+      <!-- Seeker overlay -->
+      <div id="seeker-overlay" class="seeker-overlay" style="display:none"></div>
+
+      <!-- Seeker waiting message -->
+      <div id="seeker-wait" class="seeker-wait" style="display:none">
+        <div class="seeker-wait-text">Painting in progress...</div>
+        <div class="seeker-wait-countdown" id="seeker-countdown">60</div>
+      </div>
+
+      <!-- Between rounds overlay -->
+      <div id="between-rounds" class="between-rounds" style="display:none">
+        <div class="between-rounds-text">Round Complete!</div>
+        <div id="between-rounds-scores" class="between-rounds-scores"></div>
+        <button id="next-round-btn" class="btn primary" style="display:none">Next Round</button>
+        <div id="between-rounds-wait" class="between-rounds-wait" style="display:none">Waiting for host to start next round...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ FINISHED ═══ -->
+  <div id="finished-screen" class="screen">
+    <div class="card">
+      <h2>Game Over!</h2>
+      <div id="final-results"></div>
+      <button id="play-again-btn" class="btn primary">Play Again</button>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="js/network.js"></script>
+  <script src="js/maps.js"></script>
+  <script src="js/paint.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
