@@ -19,8 +19,16 @@ class Net {
     this.socket.on('game-finished', d => this._fire('game-finished', d));
   }
 
-  createRoom(name, map) {
-    return new Promise(r => this.socket.emit('create-room', { name, map }, r));
+  createRoom(name, category) {
+    return new Promise(r => this.socket.emit('create-room', { name, category }, r));
+  }
+
+  getCategories() {
+    return new Promise(r => this.socket.emit('get-categories', null, r));
+  }
+
+  setCategory(category) {
+    return new Promise(r => this.socket.emit('set-category', { category }, r));
   }
 
   joinRoom(code, name) {

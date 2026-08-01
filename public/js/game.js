@@ -136,6 +136,11 @@ class Game {
         this.paint.active = !this.paint.active;
         this.updateToolbar();
       }
+      if (e.key === 'd' && this.role === 'hider' && this.state === 'prep') {
+        this.paint.active = false;
+        this.sampleMode = false;
+        this.updateToolbar();
+      }
       if (e.key === ' ' && this.role === 'hider' && this.state === 'prep') {
         e.preventDefault();
         this.sampleMode = true;
@@ -261,7 +266,7 @@ class Game {
       this.paint.active = false;
       this.drag = false;
 
-      if (d.state === 'hunt' && this.role === 'hider') {
+      if (this.role === 'hider') {
         this.userZoom = 1;
         this.zoomX = 0;
         this.zoomY = 0;
@@ -355,7 +360,9 @@ class Game {
       const opts = {};
 
       if (isMe && this.state === 'prep') {
-        opts.ring = '#3498db';
+        if (!this.paint.active) {
+          opts.ring = '#3498db';
+        }
         opts.label = 'Drag to hide';
         opts.labelColor = '#3498db';
       } else if (this.role === 'hider' && p.role === 'hider' && !isMe) {

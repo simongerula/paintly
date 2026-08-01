@@ -3,6 +3,7 @@ const http = require('http');
 const { Server } = require('socket.io');
 const path = require('path');
 const GameRoom = require('./game/GameRoom');
+const { getCategoryList, getImagesInCategory } = require('./game/maps');
 
 const app = express();
 const server = http.createServer(app);
@@ -20,14 +21,35 @@ function genCode() {
 }
 
 io.on('connection', socket => {
-  socket.on('create-room', ({ name, map }, cb) => {
+  socket.on('get-categories', (_, cb) => {
+    cb?.(getCategoryList());
+  });
+
+  socket.on('create-room', ({ name, category }, cb) => {
     const code = genCode();
-    const room = new GameRoom(code, map || 'starry-night', io);
+    const room = new GameRoom(code, category || 'van-gogh', io);
     rooms.set(code, room);
     room.addPlayer(socket.id, name);
     playerRoom.set(socket.id, code);
     socket.join(code);
     cb({ ok: true, code, room: room.serialize() });
+  });
+
+  socket.on('set-category', ({ category }, cb) => {
+    const code = playerRoom.get(socket.id);
+    if (!code) return cb?.({ ok: false });
+    const room = rooms.get(code);
+    if (!room || room.hostId !== socket.id) return cb?.({ ok: false });
+    if (room.state !== 'lobby') return cb?.({ ok: false });
+    room.category = category;
+    room.images = getImagesInCategory(category);
+    if (room.images.length === 0) {
+      room.images = [{ name: 'Fallback', image: null, width: 960, height: 540, background: '#1a1a3e' }];
+    }
+    room.mapData = room.images[0];
+    room.maxRounds = room.images.length;
+    cb?.({ ok: true });
+    io.to(code).emit('room-update', room.serialize());
   });
 
   socket.on('join-room', ({ code, name }, cb) => {

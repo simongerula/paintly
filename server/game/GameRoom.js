@@ -1,4 +1,4 @@
-const MAPS = require('./maps');
+const { getImagesInCategory } = require('./maps');
 
 const PHASES = {
   prep: 60,
@@ -7,18 +7,22 @@ const PHASES = {
 };
 
 class GameRoom {
-  constructor(code, mapName, io) {
+  constructor(code, category, io) {
     this.code = code;
     this.io = io;
     this.hostId = null;
     this.players = new Map();
     this.state = 'lobby';
-    this.mapName = mapName || 'starry-night';
-    this.mapData = MAPS[this.mapName] || MAPS['starry-night'];
+    this.category = category || 'van-gogh';
+    this.images = getImagesInCategory(this.category);
+    if (this.images.length === 0) {
+      this.images = [{ name: 'Fallback', image: null, width: 960, height: 540, background: '#1a1a3e' }];
+    }
+    this.mapData = this.images[0];
     this.timer = 0;
     this.timerInterval = null;
     this.round = 0;
-    this.maxRounds = 3;
+    this.maxRounds = this.images.length;
     this.shotsFired = 0;
     this.huntStart = 0;
   }
@@ -42,6 +46,11 @@ class GameRoom {
     this.state = 'prep';
     this.round++;
     this.shotsFired = 0;
+
+    // Cycle through images in the category
+    const imageIndex = (this.round - 1) % this.images.length;
+    this.mapData = this.images[imageIndex];
+
     const ids = Array.from(this.players.keys());
     const seekCount = Math.max(1, Math.floor(ids.length / 4));
     const shuffled = ids.sort(() => Math.random() - 0.5);
@@ -109,6 +118,7 @@ class GameRoom {
     this.state = 'lobby';
     this.clearTick();
     this.round = 0;
+    this.maxRounds = this.images.length;
     this.players.forEach(p => {
       p.role = null; p.alive = true; p.strokes = []; p.score = 0;
     });
@@ -201,7 +211,7 @@ class GameRoom {
     });
     return {
       code: this.code, state: this.state, hostId: this.hostId,
-      mapName: this.mapName, mapData: this.mapData,
+      category: this.category, mapData: this.mapData,
       players, timer: this.timer,
       round: this.round, maxRounds: this.maxRounds
     };

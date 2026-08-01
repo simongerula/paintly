@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const game = new Game(canvas, net);
 
   let isHost = false;
+  let categories = [];
 
   const $ = id => document.getElementById(id);
 
@@ -19,6 +20,25 @@ document.addEventListener('DOMContentLoaded', () => {
     e.textContent = msg;
     e.style.display = 'block';
     setTimeout(() => e.style.display = 'none', 3500);
+  }
+
+  async function loadCategories() {
+    categories = await net.getCategories();
+    const sel = $('map-select');
+    sel.innerHTML = '';
+    categories.forEach(cat => {
+      const opt = document.createElement('option');
+      opt.value = cat.key;
+      opt.textContent = `${cat.name} (${cat.imageCount} images)`;
+      sel.appendChild(opt);
+    });
+    updateImageCount();
+  }
+
+  function updateImageCount() {
+    const sel = $('map-select');
+    const cat = categories.find(c => c.key === sel.value);
+    $('image-count').textContent = cat ? `${cat.imageCount} images` : '';
   }
 
   function updateRoom(data) {
@@ -35,12 +55,20 @@ document.addEventListener('DOMContentLoaded', () => {
     isHost = me?.isHost;
     $('start-btn').style.display = isHost ? 'block' : 'none';
     $('wait-msg').style.display = isHost ? 'none' : 'block';
+
+    if (data.category) {
+      $('map-select').value = data.category;
+      updateImageCount();
+    }
+
+    $('map-select').disabled = !isHost || data.state !== 'lobby';
   }
 
   // Lobby
   $('create-btn').onclick = async () => {
     const name = $('player-name').value.trim() || 'Player';
-    const res = await net.createRoom(name, 'starry-night');
+    const category = $('map-select').value;
+    const res = await net.createRoom(name, category);
     if (res.ok) { showScreen('room-screen'); updateRoom(res.room); }
     else showError(res.err);
   };
@@ -67,6 +95,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (isHost) await net.nextRound();
   };
 
+  $('map-select').onchange = async () => {
+    updateImageCount();
+    if (isHost) {
+      await net.setCategory($('map-select').value);
+    }
+  };
+
   $('room-code').onkeydown = e => { if (e.key === 'Enter') $('join-btn').click(); };
   $('player-name').onkeydown = e => { if (e.key === 'Enter') $('create-btn').click(); };
 
@@ -79,4 +114,6 @@ document.addEventListener('DOMContentLoaded', () => {
     game.state = 'finished';
     game.showResults(d);
   });
+
+  loadCategories();
 });
