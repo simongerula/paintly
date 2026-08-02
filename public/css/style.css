@@ -75,6 +75,15 @@ h3{font-size:.95rem;color:#9ca3af;margin-bottom:6px}
 .form input:focus{border-color:#ef4444;box-shadow:0 0 0 3px rgba(239,68,68,.15);background:rgba(17,24,39,.9)}
 .form input::placeholder{color:#4b5563}
 
+.name-row{display:flex;gap:8px}
+.name-row input{flex:1}
+
+.random-btn{width:42px;height:42px;flex-shrink:0;border:2px solid rgba(55,65,81,.8);border-radius:10px;background:rgba(17,24,39,.7);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .25s,box-shadow .25s,transform .15s}
+.random-btn svg{width:18px;height:18px;color:#9ca3af;transition:color .25s,transform .4s}
+.random-btn:hover{border-color:#f97316}
+.random-btn:hover svg{color:#f97316}
+.random-btn:active svg{transform:rotate(180deg)}
+
 /* ═══ BUTTONS ═══ */
 .btn{padding:12px 22px;border:none;border-radius:10px;font-size:.95rem;font-weight:600;cursor:pointer;transition:transform .15s,box-shadow .3s,background .25s;display:flex;align-items:center;justify-content:center;gap:8px;position:relative;overflow:hidden}
 .btn::after{content:'';position:absolute;inset:0;background:linear-gradient(rgba(255,255,255,.12),transparent);opacity:0;transition:opacity .25s}

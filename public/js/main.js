@@ -64,6 +64,21 @@ document.addEventListener('DOMContentLoaded', () => {
     $('map-select').disabled = !isHost || data.state !== 'lobby';
   }
 
+  // Name randomizer
+  const firstNames = ['Vincent','Pablo','Claude','Leonardo','Frida','Georgia','Salvador','Rembrandt','Henri','Edgar','Wassily','Paul','Jackson','Andy','Mark','Joan','Caravaggio','Raphael','Botticelli','Vermeer','Cezanne','Degas','Goya','Klimt','Munch','Monet','Picasso','Renoir','Titian','Turner'];
+  const lastNames = ['Canvas','Brush','Palette','Stroke','Sketch','Color','Paint','Hue','Shade','Gallery','Studio','Easel','Portrait','Landscape','Impasto','Glaze','Underpainting','Chiaroscuro','Sfumato','Fresco','Impression','Abstract','Surreal','Cubist','Baroque','Rococo','Romantic','Modernist','Realist','Expressionist'];
+
+  function randomName() {
+    const a = firstNames[Math.floor(Math.random() * firstNames.length)];
+    const b = lastNames[Math.floor(Math.random() * lastNames.length)];
+    return `${a} ${b}`;
+  }
+
+  $('random-name-btn').onclick = () => {
+    $('player-name').value = randomName();
+    $('player-name').focus();
+  };
+
   // Lobby
   $('create-btn').onclick = async () => {
     const name = $('player-name').value.trim() || 'Player';
