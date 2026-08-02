@@ -492,7 +492,7 @@ class Game {
       .forEach(p => {
         const d = document.createElement('div');
         d.className = 'result-player';
-        d.innerHTML = `<span style="color:${p.color || '#888'}">●</span><span>${p.name}</span><span class="role-tag ${p.role}">${p.role}</span><span class="score">${p.score} pts</span>`;
+        d.innerHTML = `<span style="color:${p.color || '#888'}">●</span><span>${p.name}</span><span class="score">${p.score} pts</span>`;
         box.appendChild(d);
       });
     const me = data.players[this.net.myId];
