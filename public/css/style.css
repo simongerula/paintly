@@ -167,7 +167,7 @@ select option{background:#1f2937;color:#e5e7eb;padding:8px}
 .seeker-wait-countdown{font-size:3rem;font-weight:800;color:#fbbf24}
 
 /* ═══ BETWEEN ROUNDS ═══ */
-.between-rounds{position:absolute;bottom:50%;left:50%;transform:translate(-50%,50%);text-align:center;z-index:10;background:rgba(17,24,39,.92);padding:24px 32px;border-radius:14px;backdrop-filter:blur(4px);border:1px solid #374151}
+.between-rounds{position:absolute;bottom:50%;left:50%;transform:translate(-50%,50%);text-align:center;z-index:10;background:rgba(31,41,55,.65);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);padding:28px 36px;border-radius:16px;border:1px solid rgba(255,255,255,.08);box-shadow:0 8px 48px rgba(0,0,0,.55),0 0 80px rgba(239,68,68,.06),inset 0 1px 0 rgba(255,255,255,.05)}
 .between-rounds-text{font-size:1.6rem;font-weight:700;color:#9ca3af;margin-bottom:12px}
 .between-rounds-scores{margin-bottom:16px;font-size:.9rem;color:#d1d5db}
 .between-rounds-scores .entry{padding:6px 0;border-bottom:1px solid #374151}
