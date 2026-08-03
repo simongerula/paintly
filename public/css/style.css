@@ -164,6 +164,9 @@ select option{background:#1f2937;color:#e5e7eb;padding:8px}
 /* ═══ SEEKER WAIT ═══ */
 .seeker-wait{position:absolute;bottom:50%;left:50%;transform:translate(-50%,50%);text-align:center;z-index:10;pointer-events:none}
 .seeker-wait-text{font-size:1.6rem;font-weight:700;color:#9ca3af;margin-bottom:8px}
+.seeker-wait-fact-header{font-size:0.8rem;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:0.05em;margin-top:20px;margin-bottom:4px}
+.seeker-wait-fact{font-size:0.95rem;font-style:italic;color:#9ca3af;margin:0 auto 16px;max-width:360px;line-height:1.4;transition:opacity 0.5s ease}
+.seeker-wait-fact.fading{opacity:0}
 .seeker-wait-countdown{font-size:3rem;font-weight:800;color:#fbbf24}
 
 /* ═══ BETWEEN ROUNDS ═══ */

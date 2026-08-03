@@ -25,6 +25,25 @@ class Game {
     this.zoomX = 0;
     this.zoomY = 0;
     this.shootsLeft = 0;
+    this.paintingFacts = [
+      "The Mona Lisa has her own mailbox at the Louvre because of all the love letters she receives.",
+      "Van Gogh only sold one painting during his lifetime — 'The Red Vineyard' for 400 francs.",
+      "The word 'canvas' comes from the Greek word for cannabis, which was used to make the fabric.",
+      "Picasso could draw before he could walk, and his first word was 'piz' (short for 'lápiz', Spanish for pencil).",
+      "The most expensive painting ever sold is the 'Salvator Mundi' by Leonardo da Vinci — $450.3 million.",
+      "Bob Ross completed over 30,000 paintings in his lifetime while hosting 'The Joy of Painting'.",
+      "The color orange is named after the fruit, not the other way around.",
+      "Ancient Romans used lead white paint, which caused lead poisoning among artists.",
+      "The world's largest painting covers over 2,200 square meters and was created by a UK school.",
+      "Yves Klein once hosted an art exhibition with empty white walls, calling the invisible art the 'immaterial'.",
+      "Finger painting dates back to ancient China, around 5,000 years ago.",
+      "The word 'art' comes from the Latin 'ars', meaning skill or craft.",
+      "Jackson Pollock's 'No. 5, 1948' sold for $140 million in 2006.",
+      "Blue is the rarest color to find in nature, which is why ancient societies prized ultramarine pigment.",
+      "A single tube of cadmium red paint in the 1800s could cost a month's wages for an artist."
+    ];
+    this.currentFactIndex = Math.floor(Math.random() * this.paintingFacts.length);
+    this.factTimer = 0;
 
     this.bindInput();
     this.bindNet();
@@ -265,6 +284,7 @@ class Game {
       this.role = this.me?.role;
       this.paint.active = false;
       this.drag = false;
+      this.currentFactIndex = Math.floor(Math.random() * this.paintingFacts.length);
 
       if (this.role === 'hider') {
         this.userZoom = 1;
@@ -302,7 +322,19 @@ class Game {
       }
     });
 
-    this.net.on('timer', t => { this.timer = t; this.updateUI(); });
+    this.net.on('timer', t => {
+      this.timer = t;
+      if (this.role === 'seeker' && this.state === 'prep' && t % 5 === 0) {
+        const factEl = el('seeker-fact');
+        factEl.classList.add('fading');
+        setTimeout(() => {
+          this.currentFactIndex = (this.currentFactIndex + 1) % this.paintingFacts.length;
+          factEl.textContent = this.paintingFacts[this.currentFactIndex];
+          factEl.classList.remove('fading');
+        }, 500);
+      }
+      this.updateUI();
+    });
 
     this.net.on('game-finished', d => {
       this.state = 'finished';
@@ -443,6 +475,7 @@ class Game {
       seekerWait.style.display = 'block';
       seekerOverlay.style.display = 'block';
       el('seeker-countdown').textContent = this.timer;
+      el('seeker-fact').textContent = this.paintingFacts[this.currentFactIndex];
     } else {
       seekerWait.style.display = 'none';
       seekerOverlay.style.display = 'none';
