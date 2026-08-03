@@ -74,25 +74,39 @@
 
   <!-- ═══ ROOM ═══ -->
   <div id="room-screen" class="screen">
-    <div class="card glass-card">
-      <h2>Room <code id="room-code-out"></code></h2>
-      <p class="sub">Share this code with your friends</p>
-      <div class="input-group">
-        <label>
-          <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-          Theme <span id="image-count" class="img-count"></span>
-        </label>
-        <select id="map-select">
-          <option value="van-gogh">Van Gogh</option>
-          <option value="wellington">Wellington</option>
-        </select>
+    <div class="room-layout">
+      <div class="room-left">
+        <div class="card glass-card">
+          <h2>Room <code id="room-code-out"></code></h2>
+          <p class="sub">Share this code with your friends</p>
+          <div class="input-group">
+            <label>
+              <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              Theme <span id="image-count" class="img-count"></span>
+            </label>
+            <select id="map-select">
+              <option value="van-gogh">Van Gogh</option>
+              <option value="wellington">Wellington</option>
+            </select>
+          </div>
+          <div class="plist">
+            <h3>Players (<span id="p-count">0</span>/8)</h3>
+            <ul id="p-list"></ul>
+          </div>
+          <button id="start-btn" class="btn primary" style="display:none">Start Game</button>
+          <p id="wait-msg" class="sub">Waiting for host...</p>
+        </div>
+        <div class="commands-list">
+          <div class="cmd-row"><span class="cmd-key" style="color:#3b82f6">D</span><span class="cmd-label">Drag to move</span></div>
+          <div class="cmd-row"><span class="cmd-key" style="color:#ef4444">P</span><span class="cmd-label">Paint mode</span></div>
+          <div class="cmd-row"><span class="cmd-key" style="color:#f97316">Q / E</span><span class="cmd-label">Brush size</span></div>
+          <div class="cmd-row"><span class="cmd-key" style="color:#8b5cf6">SPACE</span><span class="cmd-label">Pick color</span></div>
+        </div>
       </div>
-      <div class="plist">
-        <h3>Players (<span id="p-count">0</span>/8)</h3>
-        <ul id="p-list"></ul>
+      <div class="demo-canvas-wrap">
+        <canvas id="demo-canvas"></canvas>
+        <div class="demo-hint">Try the controls!</div>
       </div>
-      <button id="start-btn" class="btn primary" style="display:none">Start Game</button>
-      <p id="wait-msg" class="sub">Waiting for host...</p>
     </div>
   </div>
 
@@ -182,6 +196,7 @@
   <script src="js/maps.js"></script>
   <script src="js/paint.js"></script>
   <script src="js/game.js"></script>
+  <script src="js/commands.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

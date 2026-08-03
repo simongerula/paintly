@@ -131,4 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   loadCategories();
+
+  const demoCanvas = document.getElementById('demo-canvas');
+  if (demoCanvas) new DemoCanvas(demoCanvas);
 });

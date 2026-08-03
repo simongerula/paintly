@@ -162,9 +162,7 @@ class Game {
       }
       if (e.key === ' ' && this.role === 'hider' && this.state === 'prep') {
         e.preventDefault();
-        this.sampleMode = true;
-        this.paint.active = false;
-        this.updateToolbar();
+        this.doSample();
       }
       if (e.key === 'q' && this.role === 'hider' && this.state === 'prep') {
         this.paint.size = Math.max(2, this.paint.size - 2);
